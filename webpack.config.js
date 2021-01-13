@@ -17,7 +17,7 @@ module.exports = {
 		extensions: ['.ts', '.js']
 	},
 	output: {
-		filename: 'bundle.js',
+		filename: 'bundle.umd.js',
 		libraryTarget: 'umd',
 		library: 'AutomatedScreenshotsClient',
 		path: path.resolve(__dirname, 'build')
