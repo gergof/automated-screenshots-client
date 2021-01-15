@@ -1,6 +1,6 @@
 {
   "name": "automated-screenshots-client",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "The client you install in your applications to take automated screenshots",
   "main": "build/index.js",
   "scripts": {

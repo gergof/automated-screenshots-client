@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/gergof/automated-screenshots-client/compare/v1.0.0...v1.1.0) (2021-01-15)
+
+
+### Features
+
+* Allow executing click and type commands through the agents ([8785787](https://github.com/gergof/automated-screenshots-client/commit/87857877f0231a2f824a72ffbe149be949f528b0))
+
 ## 1.0.0 (2021-01-13)
 
 
