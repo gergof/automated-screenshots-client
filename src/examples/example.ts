@@ -1,10 +1,10 @@
 import AutomatedScreenshotClient from '../index';
 
-const screenshot = new AutomatedScreenshotClient({
+const client = new AutomatedScreenshotClient({
 	wsAddress: 'ws://localhost:8700'
 });
 
-screenshot.suite('Suite 1', ({ beforeAll, afterEach, screenshot }) => {
+client.suite('Suite 1', ({ beforeAll, afterEach, screenshot }) => {
 	beforeAll(async () => {
 		console.log('!!! Starting to capture suite 1');
 	});
@@ -14,10 +14,13 @@ screenshot.suite('Suite 1', ({ beforeAll, afterEach, screenshot }) => {
 	});
 
 	screenshot('first screenshot', async () => {
+		// 50% on the X coordinate and 95% on the Y coordinate (from the top-left corner)
+		await client.click(50, 95);
 		console.log('prepare 1');
 	});
 
 	screenshot('second screenshot', async () => {
+		await client.type('This is an example text');
 		console.log('prepare 2');
 	});
 
@@ -26,7 +29,7 @@ screenshot.suite('Suite 1', ({ beforeAll, afterEach, screenshot }) => {
 	});
 });
 
-screenshot.suite('Suite 2', ({ screenshot, afterAll }) => {
+client.suite('Suite 2', ({ screenshot, afterAll }) => {
 	afterAll(async () => {
 		console.log('!!!!! ALL DONE !!!!!');
 	});
@@ -44,6 +47,6 @@ screenshot.suite('Suite 2', ({ screenshot, afterAll }) => {
 	});
 });
 
-screenshot.start().then(() => {
+client.start().then(() => {
 	console.log('!!! Started taking screenshots');
 });

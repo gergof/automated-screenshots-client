@@ -8,6 +8,7 @@ import {
 	Message,
 	MessageType
 } from './types';
+import EventBridge from './EventBridge';
 
 interface AutomatedScreenshotsClientConstructorProps {
 	wsAddress: string;
@@ -20,8 +21,11 @@ class AutomatedScreenshotsClient {
 	private ws: WebSocket | W3CWebSocket | null = null;
 	private isInitialized = false;
 
+	private eventBridge: EventBridge;
+
 	constructor({ wsAddress }: AutomatedScreenshotsClientConstructorProps) {
 		this.wsAddress = wsAddress;
+		this.eventBridge = new EventBridge();
 	}
 
 	start(): Promise<void> {
@@ -45,6 +49,20 @@ class AutomatedScreenshotsClient {
 		generator(definiers);
 
 		this.suites[name] = suite;
+	}
+
+	click(xPercentage: number, yPercentage: number): Promise<void> {
+		return this.executeWsCommand({
+			type: MessageType.InputTouch,
+			payload: `${xPercentage}x${yPercentage}`
+		});
+	}
+
+	type(text: string): Promise<void> {
+		return this.executeWsCommand({
+			type: MessageType.InputText,
+			payload: text
+		});
 	}
 
 	private serialize(): SerializedScreenshotPack {
@@ -183,10 +201,22 @@ class AutomatedScreenshotsClient {
 
 				return;
 			}
+			case MessageType.Ready: {
+				this.eventBridge.emit('ready');
+
+				return;
+			}
 			default:
 				this.wsAck();
 				return;
 		}
+	}
+
+	private executeWsCommand(command: Message): Promise<void> {
+		return new Promise(resolve => {
+			this.ws?.send(JSON.stringify(command));
+			this.eventBridge.once('ready', resolve);
+		});
 	}
 }
 
